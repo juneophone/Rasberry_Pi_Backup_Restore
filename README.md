@@ -2,9 +2,13 @@
 Backup and restore of Raspberry Pi system SD card
 
 ## 說明與準備
-這是一份備份 raspberry pi sysytem 用資料量大小來建立 image 檔案，優點: image 檔案比整張 SD card 複製檔案小很多。
+備份 raspberry pi sysytem 用資料量大小來建立 image 檔案，
 
-起因是因為整個 SD card 備份會占用大量磁碟空間，雖然還原後需要調整 SD card 空間。
+優點: image 檔案比整張 SD card 影像檔案小很多。
+
+缺點: 還原後需要調整 SD card 空間。
+
+起因是因為整個 SD card 備份會占用大量磁碟空間，
 
 這個方法是在 Pi or linux 系統上，把 Pi system SD card 用 dd 進行備份的方法，
 
@@ -51,16 +55,20 @@ print free
 
 查看 ext4 結尾 and Free Space 開頭的數字，然後以 Free Space 開頭的數字做為 dd 需要備份的空間大小。
 ```
-sudo dd status=progress if=/dev/sda of=rpi_6G.img bs=512 count=12767232
+sudo dd status=progress if=/dev/sda of=rpi_6G.img bs=4M count=12767232
 ```
 
 status: 顯示備份進度(需要安裝套件)
+
 if: 是要備份的 /dev/sd?
+
 of: image file name
+
 bs: 512 or 4M
+
 count: 就是 Free Space 開頭的數字
 
-以上就是備份 Pi System SD card 的方法，跑完後就可以看到 rpi.img 。
+以上就是備份 Pi System SD card 的方法，跑完後就可以看到 rpi_6G.img 。
 
 記得運作指令的 Pi 系統可用空間要比備份的 SD Card 備份大小還要大才可以。
 
@@ -72,10 +80,19 @@ count: 就是 Free Space 開頭的數字
 sudo dd status=progress if=rpi_6G.img of=/dev/sda
 ```
 
+## 調整 Pi System 空間大小
+將還原好的 Pi System 啟動後，輸入以下指令就可以用 SD Card 空間大小，做為 Pi System 空間大小:
+```
+sudo raspi-config --expand-rootfs
+sudo reboot
+```
+
 ## Example
-<img src="./images/pi_system_backup_01.png" width="640">
+<img src="./images/pi_system_backup_01.png" width="916">
 
 ## References
 [Ref.1](https://blog.csdn.net/zhufu86/article/details/109962309)
 
 [Ref.2](https://blog.cavedu.com/2018/03/22/raspberry-pi-sd-card/)
+
+[Ref.3 dd command](https://blog.gtwang.org/linux/dd-command-examples/)

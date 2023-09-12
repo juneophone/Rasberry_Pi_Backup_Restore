@@ -58,6 +58,7 @@ print free
 sudo dd status=progress if=/dev/sda of=rpi_6G.img bs=512 count=19406848
 
 如果 BS 改為 4M 就需要計算除以 4M 的 count
+
 sudo dd status=progress if=/dev/sda of=rpi_tmp.img bs=4M count=2369
 ```
 
@@ -74,7 +75,7 @@ count:
 4M count 計算的方式：
 Free Space Start = 19406848s
 4M/512 = (4*1024*1024)/512 = 8192
-						 19406848 / 8192 = 2369
+19406848 / 8192 = 2369
 						 
 所以 Command:  sudo dd status=progress if=/dev/sda of=rpi_tmp.img bs=4M count=2369
 

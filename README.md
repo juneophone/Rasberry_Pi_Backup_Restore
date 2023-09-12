@@ -55,7 +55,10 @@ print free
 
 查看 ext4 結尾 and Free Space 開頭的數字，然後以 Free Space 開頭的數字做為 dd 需要備份的空間大小。
 ```
-sudo dd status=progress if=/dev/sda of=rpi_6G.img bs=4M count=12767232
+sudo dd status=progress if=/dev/sda of=rpi_6G.img bs=512 count=19406848
+
+如果 BS 改為 4M 就需要計算除以 4M 的 count
+sudo dd status=progress if=/dev/sda of=rpi_tmp.img bs=4M count=2369
 ```
 
 status: 顯示備份進度(需要安裝套件)
@@ -66,7 +69,16 @@ of: image file name
 
 bs: 512 or 4M
 
-count: 就是 Free Space 開頭的數字
+count: 
+```
+4M count 計算的方式：
+Free Space Start = 19406848s
+4M/512 = (4*1024*1024)/512 = 8192
+						 19406848 / 8192 = 2369
+						 
+所以 Command:  sudo dd status=progress if=/dev/sda of=rpi_tmp.img bs=4M count=2369
+
+```
 
 以上就是備份 Pi System SD card 的方法，跑完後就可以看到 rpi_6G.img 。
 
